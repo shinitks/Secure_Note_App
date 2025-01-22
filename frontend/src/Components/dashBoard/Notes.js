@@ -35,7 +35,7 @@ function NotesGrid() {
     };
   
     const handleEditClick = (index) => {
-      alert(`Edit button clicked for Note ${index + 1}`);
+      // alert(`Edit button clicked for Note ${index + 1}`);
       navigate(`/note/edit/${index}`);
     };
   
@@ -46,7 +46,7 @@ function NotesGrid() {
             key={rowIndex}
             className="row"
             style={{
-              marginTop: rowIndex === 0 ? '20px' : '0', // Add margin for the zeroth row
+              marginTop: rowIndex === 0 ? '20px' : '0', 
             }}
           >
             {row.map((note, colIndex) => {
@@ -73,11 +73,11 @@ function NotesGrid() {
                         className="btn btn-outline-primary btn-sm" 
                         style={{ backgroundColor: 'black', color: 'white', border: 'none' }}
                         onClick={(e) => {
-                          e.stopPropagation(); // Prevent triggering the note click
+                          e.stopPropagation(); 
                           handleEditClick(noteIndex);
                         }}
                       >
-                        <i className="fas fa-pencil-alt"></i> {/* FontAwesome pencil icon */}
+                        <i className="fas fa-pencil-alt"></i> 
                       </button>
                     </div>
                     <p>{note.content.substring(0, 50)}...</p>

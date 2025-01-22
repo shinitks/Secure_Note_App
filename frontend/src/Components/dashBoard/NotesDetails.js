@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-// Example notes (replace with your dynamic notes or fetch from API)
 const notes = [
   { title: "NOTE1", content: "This is the full content of NOTE1. This can be long text that is hidden initially." },
   { title: "NOTE2", content: "This is the full content of NOTE2. It might also be a bit long to show fully upfront." },
@@ -11,7 +10,7 @@ const notes = [
 ];
 
 function NoteDetails() {
-  const { noteId } = useParams(); // Get the note ID from the URL
+  const { noteId } = useParams();
   const navigate = useNavigate();
   const note = notes[parseInt(noteId, 10)];
 
@@ -35,23 +34,23 @@ function NoteDetails() {
     <div
       className="container-fluid vh-100 d-flex align-items-center justify-content-center"
       style={{
-        backgroundColor: "#ffffff", // Pastel background color
+        backgroundColor: "#ffffff",
         margin: "0",
       }}
     >
       <div
         className="p-4 rounded shadow-lg text-center"
         style={{
-          backgroundColor: "#ffeef4", // White background for the card
+          backgroundColor: "#ffeef4",
           width: "100%",
           maxWidth: "600px",
         }}
       >
+        <h2 className="mb-4">{note.title}</h2>
+        <p className="text-justify">{note.content}</p>
         <button className="btn btn-secondary mb-4" onClick={() => navigate(-1)}>
           Go Back
         </button>
-        <h2 className="mb-4">{note.title}</h2>
-        <p className="text-justify">{note.content}</p>
       </div>
     </div>
   );

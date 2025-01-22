@@ -1,19 +1,14 @@
-import React ,{useState} from "react";
-
-import './loginPge.css'
-import DashBoard from "../dashBoard/dashBoard";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import './loginPage.css';
 
 function LoginPage({ hideModal }) {
-
-  const handleGoBackClick = (e) => {
-    e.preventDefault();
-    hideModal(); // Close modal when "Go back" is clicked
-  };
+  const navigate = useNavigate(); 
 
   const handleSubmitClick = (e) => {
     e.preventDefault();
     console.log("Login form submitted!");
-    hideModal();
+    navigate('/dashboard'); 
   };
 
   return (
@@ -41,13 +36,14 @@ function LoginPage({ hideModal }) {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <button
               className="btn btn-outline-success"
-              onClick={handleGoBackClick}
+              onClick={hideModal}
             >
               Go back
             </button>
             <button
               className="btn btn-outline-success"
-              onClick={handleSubmitClick}
+              type="submit"
+              onClick={handleSubmitClick} 
             >
               Login
             </button>

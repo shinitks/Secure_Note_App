@@ -61,10 +61,10 @@ function Home() {
         </div>
       </div>
 
-      {/* Modal for Sign Up */}
+      
       {showSignUpModal && <SignUpPage hideModal={hideSignupModal} />}
 
-      {/* Modal for Login */}
+      
       {showLoginModal && <LoginPage hideModal={hideLoginModal} />}
     </div>
   );
