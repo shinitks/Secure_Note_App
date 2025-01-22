@@ -7,7 +7,7 @@ const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
 Router.post('/signup', authController.signup);
-Router.post('/login', csrfProtection, authController.login);
+Router.post('/login',  authController.login);
 
 // Router.post('/signup',authController.signup);
 // Router.post('/login',);

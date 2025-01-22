@@ -1,6 +1,8 @@
 import React ,{useState} from 'react';
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
+
 
 import DashBoard from './Components/dashBoard/dashBoard';
 import NotesGrid from './Components/dashBoard/Notes';
@@ -10,6 +12,8 @@ import LoginPage from './Components/Login/loginPage';
 import SignUpPage from './Components/Login/SignUp';
 import Home from './Components/Login/Home';
 import EditNotePage from './Components/dashBoard/EditNote';
+
+
 
 function App() {
   return (

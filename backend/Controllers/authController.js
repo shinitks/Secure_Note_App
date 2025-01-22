@@ -27,7 +27,9 @@ const createSendResponse=(user,statusCode,message,token,csrfToken,res,req)=>{
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
 
         // secure:true, 
-        httpOnly:true
+        httpOnly:false,
+        sameSite: 'Lax',
+
     };
     // const csrfToken = res.locals.csrfToken;
     if(process.env.NODE_ENV==='production'){
@@ -133,43 +135,30 @@ exports.login = async (req, res, next) => {
         next(error);
     }
 };
-exports.protect = asyncErrorHandler(async(req,res,next)=>{
-    //1.Read the token &check if it exit
-    const testToken=req.headers.authorization;
-    let token;
-    if(testToken&&testToken.startsWith('Bearer')){
-     token= testToken.split(' ')[1];
-    }
-    if(!token){
-      next(new customerror('Your are not logged in',401))
-    }
-    console.log(token);
-    //2.validates the token
-    console.log('Raw Token:', token);
-    const decoded = jwt.decode(token, { complete: true });
-    console.log('Decoded Token (Raw):', decoded);
-    
-    const decodedToken= await util.promisify(jwt.verify)(token,process.env.secret_string)
+exports.protect = asyncErrorHandler(async (req, res, next) => {
+    console.log('Authorization Header:', req.headers.authorization);
   
-    console.log(decodedToken);
-    //3.if the user exists
-    // const user =await User.findById(decodedToken.id);
-    console.log('Decoded Token ID:', decodedToken.id);
-  
-    const user = await User.findById(new mongoose.Types.ObjectId(decodedToken.id)); // Convert string to ObjectId
-    console.log('User from DB:', user);
-  
-    if(!user){
-      const err=new customerror('The user with given token does not exists',401);
-     return next(err);
-    }
-    //4. if the user changed password after the token is issued
-    if(await user.isPasswordChanged(decodedToken.iat)){
-  const err=new customerror('The password has changed recently.Please login again',401);
-  return next(err);
+    const testToken = req.headers.authorization;
+    if (!testToken || !testToken.startsWith('Bearer ')) {
+      console.error('Missing or invalid Authorization header');
+      return next(new customerror('You are not logged in', 401));
     }
   
-    //5 allow user to access route
-  req.user=user;
+    const token = testToken.split(' ')[1];
+    console.log('Extracted Token:', token);
+  
+    const decodedToken = await util.promisify(jwt.verify)(token, process.env.secret_string);
+    console.log('Decoded Token:', decodedToken);
+  
+    const user = await User.findById(decodedToken.id);
+    if (!user) {
+      console.error('User not found');
+      return next(new customerror('User not found', 401));
+    }
+  
+    console.log('User found:', user);
+  
+    req.user = user;
     next();
   });
+  

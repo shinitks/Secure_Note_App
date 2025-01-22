@@ -1,21 +1,55 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie'; // For CSRF token handling
 import './Signup.css';
 
 function SignUpPage({ hideModal }) {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
+  const [error, setError] = useState(null);
 
- 
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
-    console.log("Sign-up form submitted!");
-    navigate('/dashboard'); 
-  };
+  // State to manage password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  async function onCreateUser(event) {
+    event.preventDefault();
+
+    const csrfToken = Cookies.get('csrfToken'); // Retrieve CSRF token from cookies
+
+    const user = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      confirmPassword: confirmPasswordRef.current.value,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8000/mynotes/user/signup', user, {
+        withCredentials: true, // Include cookies for CSRF token
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken, // Include CSRF token in request headers
+        },
+      });
+
+      console.log('Sign-up successful:', response.data);
+      navigate('/dashboard'); // Redirect to dashboard on successful sign-up
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || err.message || 'Sign-up failed';
+      console.error('Sign-up error:', errorMessage);
+      setError(errorMessage); // Display the error message
+    }
+  }
 
   return (
     <div className="modal-wrapper">
       <div className="modal-content">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onCreateUser}>
           <div className="mb-4">
             <label htmlFor="name" className="form-label">Name</label>
             <input
@@ -23,6 +57,7 @@ function SignUpPage({ hideModal }) {
               className="form-control"
               id="name"
               placeholder="Enter Your Name"
+              ref={nameRef}
             />
           </div>
           <div className="mb-4">
@@ -32,31 +67,53 @@ function SignUpPage({ hideModal }) {
               className="form-control"
               id="email"
               placeholder="Enter Your Email"
+              ref={emailRef}
             />
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="form-label">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Enter Your Password"
-            />
+            <div className="input-group">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control"
+                id="password"
+                placeholder="Enter Your Password"
+                ref={passwordRef}
+              />
+              <span
+                className="input-group-text toggle-button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ cursor: 'pointer' }}
+              >
+                <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true"></i>
+              </span>
+            </div>
           </div>
           <div className="mb-4">
             <label htmlFor="confirmpassword" className="form-label">Confirm Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmpassword"
-              placeholder="Confirm Your Password"
-            />
+            <div className="input-group">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                className="form-control"
+                id="confirmpassword"
+                placeholder="Confirm Your Password"
+                ref={confirmPasswordRef}
+              />
+              <span
+                className="input-group-text toggle-button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                style={{ cursor: 'pointer' }}
+              >
+                <i className={`fa ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true"></i>
+              </span>
+            </div>
           </div>
+          {error && <p className="text-danger">{error}</p>} {/* Display error message */}
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <button
               className="btn btn-outline-success"
               type="button"
-              onClick={hideModal} 
+              onClick={hideModal}
             >
               Go back
             </button>

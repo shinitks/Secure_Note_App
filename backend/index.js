@@ -11,6 +11,14 @@ const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
 const  sessionConfig  = require('./config/sessionConfig');  // Import session config
 
+const cors = require('cors');
+
+
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from frontend
+  credentials: true,               // Allow cookies
+  allowedHeaders: ['Authorization', 'X-CSRF-Token', 'Content-Type'], // Explicitly allow Authorization
+}));
 
 
 app.use(helmet());
@@ -44,10 +52,12 @@ app.use('/mynotes/user',authRouter);
 app.use('/mynotes/notes', (req, res, next) => {
     console.log('CSRF Token from Header:', req.headers['x-csrf-token']);
     console.log('CSRF Token from Cookie:', req.cookies['csrfToken']);
+    console.log('jwt Token from Cookie:', req.headers['authorization']);
+
     console.log('Request Path:', req.path);
 
     next();
-}, csrfProtection,notesRouter);
+},notesRouter);
 
 // app.use('/mynotes/notes',csrfProtection,notesRouter);
 
