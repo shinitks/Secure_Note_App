@@ -15,23 +15,41 @@ function App(){
   return (
     <div>
     <Router>
-      <Home></Home>
-    <DashBoard></DashBoard>
+      {/* <Home></Home>
+    <DashBoard></DashBoard> */}
       <Routes>
        
-        {/* Route for the notes grid */}
+        {/* Route for the notes grid
         <Route path="/" element={<NotesGrid />} />
 
         {/* Route for the note details */}
-        <Route path="/note/read/:noteId" element={<NoteDetails />} />
-        <Route path="/note/edit/:noteId" element={<NoteForm />} />
+        {/* <Route path="/note/read/:noteId" element={<NoteDetails />} />
+        <Route path="/note/edit/:noteId" element={<NoteForm />} /> */ }
+         <Route path="/" element={<Home />} />
+         <Route path="/notes" element={<DashBoard/>}/>
+         <Route path="/home/login" element={<LoginPage />}/>
+         <Route path="/home/signup" element={<SignUpPage />}/>
+         {/* <Route path="/home" element={<Home />} /> */}
+
       </Routes>
-      <LoginPage></LoginPage>
-      <SignUpPage></SignUpPage>
+      {/* <LoginPage></LoginPage>
+      <SignUpPage></SignUpPage> */}
     </Router>
     </div>
   );
 }
 
+
+// function App(){
+//   const [isLoggedIn,updateIsLoggedIn]=useState(false);
+
+//   const loginHandler=(email,password)=>{
+//     updateIsLoggedIn(true);
+//   }
+//   const logoutHandler=()=>{
+//     updateIsLoggedIn(false);
+//   }
+
+// }
 
 export default App;
