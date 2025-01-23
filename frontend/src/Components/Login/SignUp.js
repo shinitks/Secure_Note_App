@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie'; // For CSRF token handling
+import Cookies from 'js-cookie'; 
 import './Signup.css';
 
 function SignUpPage({ hideModal }) {
@@ -12,14 +12,13 @@ function SignUpPage({ hideModal }) {
   const confirmPasswordRef = useRef();
   const [error, setError] = useState(null);
 
-  // State to manage password visibility
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   async function onCreateUser(event) {
     event.preventDefault();
 
-    const csrfToken = Cookies.get('csrfToken'); // Retrieve CSRF token from cookies
+    const csrfToken = Cookies.get('csrfToken'); 
 
     const user = {
       name: nameRef.current.value,
@@ -30,19 +29,19 @@ function SignUpPage({ hideModal }) {
 
     try {
       const response = await axios.post('http://localhost:8000/mynotes/user/signup', user, {
-        withCredentials: true, // Include cookies for CSRF token
+        withCredentials: true, 
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken, // Include CSRF token in request headers
+          'X-CSRF-Token': csrfToken,
         },
       });
 
       console.log('Sign-up successful:', response.data);
-      navigate('/dashboard'); // Redirect to dashboard on successful sign-up
+      navigate('/dashboard');
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Sign-up failed';
       console.error('Sign-up error:', errorMessage);
-      setError(errorMessage); // Display the error message
+      setError(errorMessage); 
     }
   }
 

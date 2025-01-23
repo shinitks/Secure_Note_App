@@ -43,14 +43,7 @@ exports.get_all_notes = asyncErrorHandler(async (req, res, next) => {
   console.log('CSRF Token from Header:', req.headers['x-CSRF-token']);
   console.log('CSRF Token from Cookie:', req.cookies.csrfToken);
 
-  // Check for CSRF token validity
-  const csrfTokenFromHeader = req.headers['x-CSRF-token'];
-  const csrfTokenFromCookie = req.cookies.csrfToken;
-//   if (csrfTokenFromHeader !== csrfTokenFromCookie) {
-//     return res.status(403).json({ status: 'fail', message: 'Invalid CSRF token' });
-//   }
-
-  // Verify JWT token
+  
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ status: 'fail', message: 'Missing or invalid JWT token' });
@@ -89,26 +82,21 @@ exports.read_notes=asyncErrorHandler(async(req,res)=>{
 
 });
 exports.update_notes = asyncErrorHandler(async (req, res) => {
-  const id = req.params.id * 1; // Extract note ID
-  const user = req.user; // Get user from middleware
-  const { title, content } = req.body; // Extract title and content from request body
+  const id = req.params.id * 1; 
+  const user = req.user; 
+  const { title, content } = req.body; 
 
-  // Validate note ID
   if (isNaN(id) || id < 0 || id > user.notes.length) {
     return res.status(404).json({ status: 'fail', message: 'Note not found' });
   }
 
-  // Get the specific note
   const note = user.notes[id];
 
-  // Update only provided fields
   if (title) note.title = title;
   if (content) note.content = content;
 
-  // Save the updated user data
   await user.save();
 
-  // Send a response
   res.status(200).json({
     status: 'success',
     message: 'Note updated successfully',

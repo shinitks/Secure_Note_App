@@ -21,9 +21,7 @@ const signtoken = (id) => {
 };
 
 const createSendResponse=(user,statusCode,message,token,csrfToken,res,req)=>{
-    // const token=signtoken(user._id);
     const options={
-        // expiresIn: '30d',
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
 
         // secure:true, 
@@ -31,7 +29,6 @@ const createSendResponse=(user,statusCode,message,token,csrfToken,res,req)=>{
         sameSite: 'Lax',
 
     };
-    // const csrfToken = res.locals.csrfToken;
     if(process.env.NODE_ENV==='production'){
         options.secure=true;
     }
@@ -124,11 +121,9 @@ exports.login = async (req, res, next) => {
         }
 
         const token = signtoken(user._id);
-         // Generate the CSRF token here.
          const csrfToken = req.csrfToken ? req.csrfToken() : crypto.randomBytes(32).toString('hex');
 
 
-        // res.status(200).json({ status: 'success', token, user });
         const message="Loged in Successfuly"
         return createSendResponse(user, 201, message, token, csrfToken, res,req);
     } catch (error) {

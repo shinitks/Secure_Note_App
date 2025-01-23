@@ -4,14 +4,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 function EditNotePage() {
-  const { noteId } = useParams(); 
+  const { noteId } = useParams();
   const navigate = useNavigate();
   console.log("EditNotePage rendered, noteId:", noteId);
 
-  const [title, setTitle] = useState(""); 
-  const [content, setContent] = useState(""); 
-  const [error, setError] = useState(null); 
-  const [loading, setLoading] = useState(true); 
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -28,26 +28,25 @@ function EditNotePage() {
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
-              "X-CSRF-Token": csrfToken, 
+              "X-CSRF-Token": csrfToken,
             },
-            withCredentials: true, 
+            withCredentials: true,
           }
         );
 
         console.log("Response:", response.data);
 
-        const note = response.data.note; 
+        const note = response.data.note;
         if (!note) {
           throw new Error("Note not found");
         }
 
-        setTitle(note.title); 
-        setContent(note.content); 
-        setLoading(false); 
+        setTitle(note.title);
+        setContent(note.content);
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching note:", err.message); 
-        setError(err.response?.data?.message || "Failed to fetch note details"); 
-        setLoading(false); 
+        console.error("Error fetching note:", err.message);
+        handleError(err);
       }
     };
 
@@ -72,26 +71,29 @@ function EditNotePage() {
       );
 
       console.log("Note updated successfully:", response.data);
-      navigate("/dashboard");
+      alert("Note updated successfully!"); 
     } catch (err) {
       console.error("Error updating note:", err);
-      setError(err.response?.data?.message || "Failed to update note");
+      handleError(err);
     }
+  };
+
+  const handleError = (err) => {
+    const message = err.response?.data?.message || "An error occurred";
+
+    if (err.response?.status === 401) {
+      alert(`${message}. Redirecting to the Login page.`);
+      navigate("/login");
+    } else {
+      alert(message);
+    }
+
+    setError(message);
+    setLoading(false);
   };
 
   if (loading) {
     return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return (
-      <div className="container text-center mt-5">
-        <h2 className="text-danger">{error}</h2>
-        <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>
-          Go Back
-        </button>
-      </div>
-    );
   }
 
   return (

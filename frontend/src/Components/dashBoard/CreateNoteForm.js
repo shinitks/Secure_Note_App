@@ -37,8 +37,23 @@ function NoteForm() {
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Failed to create note";
       console.error("Error creating note:", errorMessage);
-      setError(errorMessage);
+      handleError(err);
+
     }
+  };
+  const handleError = (err) => {
+    const message = err.response?.data?.message || "An error occurred";
+
+    if (err.response?.status === 401) {
+      // Session expired
+      alert(`${message}. Redirecting to the Login page.`);
+      navigate("/login");
+    } else {
+      // Other errors
+      alert(message);
+    }
+
+    setError(message);
   };
 
   return (

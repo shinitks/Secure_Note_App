@@ -27,9 +27,10 @@ function NotesGrid() {
       } catch (err) {
         const errorMessage = err.response?.data?.message || 'Failed to fetch notes';
         console.error('Error fetching notes:', errorMessage);
-        setError(errorMessage);
-        window.alert(errorMessage); 
+        handleError(err);
+
       }
+
     };
 
     fetchNotes(); 
@@ -68,9 +69,23 @@ function NotesGrid() {
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Failed to delete note';
       console.error('Error deleting note:', errorMessage);
-      setError(errorMessage);
-      window.alert(errorMessage); 
+      handleError(err);
+
     }
+  };
+  const handleError = (err) => {
+    const message = err.response?.data?.message || "An error occurred";
+
+    if (err.response?.status === 401) {
+      // Session expired
+      alert(`${message}. Redirecting to the Login page.`);
+      navigate("/login");
+    } else {
+      // Other errors
+      alert(message);
+    }
+
+    setError(message);
   };
 
   return (

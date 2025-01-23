@@ -14,7 +14,7 @@ function LoginPage({ hideModal }) {
   async function onCreateUser(event) {
     event.preventDefault();
 
-    const csrfToken = Cookies.get('csrfToken'); // Retrieve CSRF token from cookies
+    const csrfToken = Cookies.get('csrfToken'); 
 
     const user = {
       email: emailRef.current.value,
@@ -23,19 +23,19 @@ function LoginPage({ hideModal }) {
 
     try {
       const response = await axios.post('http://localhost:8000/mynotes/user/login', user, {
-        withCredentials: true, // Include cookies for CSRF token
+        withCredentials: true, 
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken, // Include CSRF token in request headers
+          'X-CSRF-Token': csrfToken, 
         },
       });
 
       console.log('Login successful:', response.data);
-      navigate('/dashboard'); // Redirect to dashboard on successful login
+      navigate('/dashboard'); 
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
       console.error('Login error:', errorMessage);
-      setError(errorMessage); // Display the error message
+      setError(errorMessage); 
     }
   }
 

@@ -2,39 +2,84 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import "@fortawesome/fontawesome-free/css/all.min.css"; 
 
 function NoteDetails() {
-  const { noteId } = useParams(); 
+  const { noteId } = useParams();
   const navigate = useNavigate();
 
-  const [note, setNote] = useState(null); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [note, setNote] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchNote = async () => {
       try {
-        const jwtToken = Cookies.get("jwt"); 
-        const csrfToken = Cookies.get("csrfToken"); 
+        const jwtToken = Cookies.get("jwt");
+        const csrfToken = Cookies.get("csrfToken");
 
         const response = await axios.get(`http://localhost:8000/mynotes/notes/read/${noteId}`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
             "X-CSRF-Token": csrfToken,
           },
-          withCredentials: true, 
+          withCredentials: true,
         });
 
-        setNote(response.data.note); 
-        setLoading(false); 
+        setNote(response.data.note);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching note details:", err);
-        setError(err.response?.data?.message || "Failed to fetch note details");
-        setLoading(false); 
+        handleError(err);
       }
     };
 
-    fetchNote(); 
+    fetchNote();
   }, [noteId]);
+
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this note?");
+    if (!isConfirmed) {
+      return; 
+    }
+
+    try {
+      const jwtToken = Cookies.get("jwt");
+      const csrfToken = Cookies.get("csrfToken");
+
+      await axios.delete(`http://localhost:8000/mynotes/notes/delete/${noteId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+          "X-CSRF-Token": csrfToken,
+        },
+        withCredentials: true,
+      });
+
+      alert("Note deleted successfully.");
+      navigate("/dashboard"); 
+    } catch (err) {
+      console.error("Error deleting note:", err);
+      handleError(err);
+    }
+  };
+
+  const handleEdit = () => {
+    navigate(`/note/edit/${noteId}`);
+  };
+
+  const handleError = (err) => {
+    const message = err.response?.data?.message || "An error occurred";
+
+    if (err.response?.status === 401) {
+      alert(`${message}. Redirecting to the Login page.`);
+      navigate("/login");
+    } else {
+      alert(message);
+    }
+
+    setError(message);
+    setLoading(false);
+  };
 
   if (loading) {
     return (
@@ -98,18 +143,28 @@ function NoteDetails() {
           flexDirection: "column",
         }}
       >
-        <h2
-          className="mb-4"
-          style={{
-            position: "sticky",
-            top: "0",
-            backgroundColor: "#ffeef4",
-            zIndex: 10,
-            paddingBottom: "10px",
-          }}
+        <div
+          className="d-flex justify-content-between align-items-center"
+          style={{ marginBottom: "20px" }}
         >
-          {note.title}
-        </h2>
+          <h2>{note.title}</h2>
+          <div>
+            <button
+              className="btn btn-outline-primary me-2"
+              title="Edit"
+              onClick={handleEdit}
+            >
+              <i className="fas fa-pencil-alt"></i> {/* Pencil icon */}
+            </button>
+            <button
+              className="btn btn-outline-danger"
+              title="Delete"
+              onClick={handleDelete}
+            >
+              <i className="fas fa-trash"></i> {/* Bin icon */}
+            </button>
+          </div>
+        </div>
         <div
           style={{
             flex: 1,
