@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 
 
+
 exports.create_notes = asyncErrorHandler(async (req, res) => {
     const user = req.user;
     
@@ -75,6 +76,7 @@ exports.get_all_notes = asyncErrorHandler(async (req, res, next) => {
   
 exports.read_notes=asyncErrorHandler(async(req,res)=>{
     const id=req.params.id*1;
+    console.log(id);
     const user = req.user;
     if (isNaN(id) || id < 0 || id > user.notes.length) {
         return res.status(404).json({ status: 'fail', message: 'Note not found' });
@@ -82,50 +84,68 @@ exports.read_notes=asyncErrorHandler(async(req,res)=>{
     res.status(201).json({
         status: 'success',
         message: 'successfully loaded',
-        note: user.notes[id-1],
+        note: user.notes[id],
     });
 
 });
 exports.update_notes = asyncErrorHandler(async (req, res) => {
-    const id = req.params.id * 1; // Extract note ID
-    const user = req.user; // Get user from middleware
-    const { title, content } = req.body; // Extract title and content from request body
+  const id = req.params.id * 1; // Extract note ID
+  const user = req.user; // Get user from middleware
+  const { title, content } = req.body; // Extract title and content from request body
+
+  // Validate note ID
+  if (isNaN(id) || id < 0 || id > user.notes.length) {
+    return res.status(404).json({ status: 'fail', message: 'Note not found' });
+  }
+
+  // Get the specific note
+  const note = user.notes[id];
+
+  // Update only provided fields
+  if (title) note.title = title;
+  if (content) note.content = content;
+
+  // Save the updated user data
+  await user.save();
+
+  // Send a response
+  res.status(200).json({
+    status: 'success',
+    message: 'Note updated successfully',
+    note,
+  });
+});
+
   
-    if (!content || !title) {
-      return res.status(400).json({ status: 'fail', message: 'Title and Content are required' });
+exports.delete_notes = asyncErrorHandler(async (req, res) => {
+  const id = req.params.id; 
+  const user = req.user;
+
+  console.log(id);
+  console.log(user);
+  
+
+  const mongoose = require('mongoose'); 
+
+  try {
+    const noteIndex = user.notes.findIndex((note) => note._id.equals(new mongoose.Types.ObjectId(id)));
+  
+    if (noteIndex === -1) {
+        return res.status(404).json({ status: 'fail', message: 'Note not found' });
     }
   
-    if (isNaN(id) || id < 0 || id > user.notes.length) {
-      return res.status(404).json({ status: 'fail', message: 'Note not found' });
-    }
-  
-    // Update the note
-    user.notes[id - 1].title = title;
-    user.notes[id - 1].content = content;
+    
+    const deletedNote = user.notes.splice(noteIndex, 1)[0];
     await user.save();
   
     res.status(200).json({
-      status: 'success',
-      message: 'Note updated successfully',
-      note: user.notes[id - 1],
-    });
-  });
-  
-exports.delete_notes=asyncErrorHandler(async(req,res)=>{
-    const id=req.params.id*1;
-    const user = req.user;
-
-    if (isNaN(id) || id < 0 || id > user.notes.length) {
-        return res.status(404).json({ status: 'fail', message: 'Note not found' });
-    }
-    const deletedNote = user.notes.splice(id - 1, 1)[0]; // Removes 1 note at index (id-1) and returns it
-
-    await user.save();
-
-    res.status(201).json({
         status: 'success',
-        message: 'successfully deleted',
+        message: 'Note successfully deleted',
         note: deletedNote,
     });
+  } catch (err) {
+    return res.status(400).json({ status: 'fail', message: 'Invalid note ID' });
+  }
+  
+});
 
-})

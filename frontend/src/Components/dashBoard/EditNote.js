@@ -1,26 +1,92 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-
-const notes = [
-  { title: 'NOTE1', content: 'This is the full content of NOTE1.' },
-  { title: 'NOTE2', content: 'This is the full content of NOTE2.' },
-  { title: 'NOTE3', content: 'This is the full content of NOTE3.' },
-  { title: 'NOTE4', content: 'This is the full content of NOTE4.' },
-  { title: 'NOTE5', content: 'This is the full content of NOTE5.' },
-];
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function EditNotePage() {
   const { noteId } = useParams(); 
   const navigate = useNavigate();
-  const note = notes[parseInt(noteId, 10)]; 
+  console.log("EditNotePage rendered, noteId:", noteId);
 
-  const [title, setTitle] = useState(note?.title || ''); 
-  const [content, setContent] = useState(note?.content || ''); 
+  const [title, setTitle] = useState(""); 
+  const [content, setContent] = useState(""); 
+  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(true); 
 
-  if (!note) {
+  useEffect(() => {
+    const fetchNote = async () => {
+      try {
+        console.log("fetchNote called");
+
+        const jwtToken = Cookies.get("jwt");
+        const csrfToken = Cookies.get("csrfToken");
+        console.log("JWT Token:", jwtToken);
+        console.log("CSRF Token:", csrfToken);
+
+        const response = await axios.get(
+          `http://localhost:8000/mynotes/notes/read/${noteId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+              "X-csrf-token": csrfToken, 
+            },
+            withCredentials: true, 
+          }
+        );
+
+        console.log("Response:", response.data);
+
+        const note = response.data.note; 
+        if (!note) {
+          throw new Error("Note not found");
+        }
+
+        setTitle(note.title); 
+        setContent(note.content); 
+        setLoading(false); 
+      } catch (err) {
+        console.error("Error fetching note:", err.message); 
+        setError(err.response?.data?.message || "Failed to fetch note details"); 
+        setLoading(false); 
+      }
+    };
+
+    fetchNote();
+  }, [noteId]);
+
+  const handleSave = async () => {
+    try {
+      const jwtToken = Cookies.get("jwt");
+      const csrfToken = Cookies.get("csrfToken");
+
+      const response = await axios.patch(
+        `http://localhost:8000/mynotes/notes/update/${noteId}`,
+        { title, content },
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+            "X-csrf-token": csrfToken,
+          },
+          withCredentials: true,
+        }
+      );
+
+      console.log("Note updated successfully:", response.data);
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Error updating note:", err);
+      setError(err.response?.data?.message || "Failed to update note");
+    }
+  };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
     return (
       <div className="container text-center mt-5">
-        <h2 className="text-danger">Note Not Found</h2>
+        <h2 className="text-danger">{error}</h2>
         <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>
           Go Back
         </button>
@@ -28,26 +94,20 @@ function EditNotePage() {
     );
   }
 
-  const handleSave = () => {
-    console.log('Saving note:', { title, content });
-    // alert('Note updated successfully!');
-    navigate('/dashboard'); 
-  };
-
   return (
     <div
       className="container-fluid vh-100 d-flex align-items-center justify-content-center"
       style={{
-        backgroundColor: "#ffffff", 
-        margin: "0", 
+        backgroundColor: "#ffffff",
+        margin: "0",
       }}
     >
       <form
         className="p-4 rounded shadow"
         style={{
-          backgroundColor: "#ffeef4", 
-          width: "100%",
-          maxWidth: "800px", 
+          backgroundColor: "#ffeef4",
+          width: "900px",
+          maxWidth: "1000px",
         }}
       >
         <div className="mb-4">
@@ -74,7 +134,7 @@ function EditNotePage() {
             onChange={(e) => setContent(e.target.value)}
             rows="15"
             style={{
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", 
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           ></textarea>
         </div>

@@ -31,19 +31,6 @@ function App() {
     </Router>
   );
 }
-// function App(){
-//   const [isLoggedIn,updateIsLoggedIn]=useState(false);
 
-//   const loginHandler=(email,password)=>{
-//     updateIsLoggedIn(true);
-//   }
-//   const logoutHandler=()=>{
-//     updateIsLoggedIn(false);
-//   }
-// return {
-//   <React.Fragment>
-//   <main
-// }
-// }
 
 export default App;

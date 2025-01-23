@@ -143,6 +143,7 @@ exports.protect = asyncErrorHandler(async (req, res, next) => {
       console.error('Missing or invalid Authorization header');
       return next(new customerror('You are not logged in', 401));
     }
+    console.log('hello');
   
     const token = testToken.split(' ')[1];
     console.log('Extracted Token:', token);

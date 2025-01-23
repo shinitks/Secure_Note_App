@@ -1,26 +1,12 @@
-
-.modal-wrapper {
-    position: fixed;
-    width:10000px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10003;
-    background: rgb(229, 229, 240);
-
-
+/* App.css or Dashboard.css */
+body {
+    background-color: rgb(246, 247, 237);
+    margin: 0;
+    padding: 0;
   }
   
-  .modal-content {
-    background: rgb(229, 229, 240);
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    width: 1000%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1004;
+  .dashboard {
+    min-height: 100vh; /* Ensure the div covers the full height */
+    background-color: rgb(246, 247, 237);
   }
   

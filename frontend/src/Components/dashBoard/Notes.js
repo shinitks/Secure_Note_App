@@ -6,70 +6,81 @@ import Cookies from 'js-cookie';
 
 function NotesGrid() {
   const navigate = useNavigate();
-  const [notes, setNotes] = useState([]); // State to hold notes
-  const [error, setError] = useState(null); // State for error messages
+  const [notes, setNotes] = useState([]); 
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        console.log('fetchNotes called'); // Log to confirm it's triggered
-  
-        // Retrieve tokens and make the request
         const jwtToken = Cookies.get('jwt');
         const csrfToken = Cookies.get('csrfToken');
-        console.log('JWT Token:', jwtToken);
-        console.log('CSRF Token:', csrfToken);
-        console.log(`Bearer ${jwtToken}`);
-        const st=`Bearer ${jwtToken}`;
-        console.log(st);
-  
+
         const response = await axios.get('http://localhost:8000/mynotes/notes/allnotes', {
           headers: {
-            Authorization: st, // JWT in Authorization header
-            'X-csrf-token': csrfToken,          // CSRF token in custom header
+            Authorization: `Bearer ${jwtToken}`, 
+            'X-csrf-token': csrfToken,          
           },
-          withCredentials: true, // Include cookies for cross-origin requests
-          
+          withCredentials: true, 
         });
 
-  
-        console.log('Response:', response.data); // Log response
-        setNotes(response.data.notes); // Update state with notes
+        setNotes(response.data.notes);
       } catch (err) {
-        console.error('Error fetching notes:', err.message); // Log error
-        setError(err.response?.data?.message || 'Failed to fetch notes'); // Set error state
+        const errorMessage = err.response?.data?.message || 'Failed to fetch notes';
+        console.error('Error fetching notes:', errorMessage);
+        setError(errorMessage);
+        window.alert(errorMessage); 
       }
     };
-  
-    fetchNotes(); // Call fetchNotes when component mounts
-  }, []); // Empty dependency array ensures it runs only once
-  
-  
 
-  const colors = ['#f8d7da', '#d1ecf1', '#c3e6cb', '#fff3cd', '#f5c6cb']; // Color palette
+    fetchNotes(); 
+  }, []); 
+  const colors = ['#f8d7da', '#d1ecf1', '#c3e6cb', '#fff3cd', '#f5c6cb']; 
   const columnsPerRow = 3;
 
   const rows = [];
   for (let i = 0; i < notes.length; i += columnsPerRow) {
-    rows.push(notes.slice(i, i + columnsPerRow)); // Divide notes into rows
+    rows.push(notes.slice(i, i + columnsPerRow));
   }
 
   const handleNoteClick = (index) => {
-    navigate(`/note/read/${index}`); // Navigate to note details page
+    navigate(`/note/read/${index}`);
   };
 
   const handleEditClick = (index) => {
-    navigate(`/note/edit/${index}`); // Navigate to edit note page
+    navigate(`/note/edit/${index}`); 
+  };
+
+  const handleDeleteClick = async (index, noteId) => {
+    try {
+      const jwtToken = Cookies.get('jwt');
+      const csrfToken = Cookies.get('csrfToken');
+
+      await axios.delete(`http://localhost:8000/mynotes/notes/delete/${noteId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`, 
+          'X-csrf-token': csrfToken,         
+        },
+        withCredentials: true, 
+      });
+
+    
+      setNotes((prevNotes) => prevNotes.filter((_, i) => i !== index));
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || 'Failed to delete note';
+      console.error('Error deleting note:', errorMessage);
+      setError(errorMessage);
+      window.alert(errorMessage); 
+    }
   };
 
   return (
-    <div className="container text-center">
-      {error && <p className="text-danger">{error}</p>} {/* Display error message */}
+    <div className="container text-center" >
+      {error && <p className="text-danger">{error}</p>} 
       {rows.map((row, rowIndex) => (
         <div
           key={rowIndex}
           className="row"
-          style={{ marginTop: rowIndex === 0 ? '20px' : '0' }} // Add margin for the first row
+          style={{ marginTop: rowIndex === 0 ? '20px' : '0' }} 
         >
           {row.map((note, colIndex) => {
             const color = colors[(rowIndex * columnsPerRow + colIndex) % colors.length];
@@ -91,16 +102,28 @@ function NotesGrid() {
                     style={{ marginBottom: '10px' }}
                   >
                     <h5>{note.title}</h5>
-                    <button
-                      className="btn btn-outline-primary btn-sm"
-                      style={{ backgroundColor: 'black', color: 'white', border: 'none' }}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering the note click
-                        handleEditClick(noteIndex);
-                      }}
-                    >
-                      <i className="fas fa-pencil-alt"></i> {/* FontAwesome pencil icon */}
-                    </button>
+                    <div>
+                      <button
+                        className="btn btn-outline-primary btn-sm me-2"
+                        style={{ backgroundColor: 'black', color: 'white', border: 'none' }}
+                        onClick={(e) => {
+                          e.stopPropagation(); 
+                          handleEditClick(noteIndex);
+                        }}
+                      >
+                        <i className="fas fa-pencil-alt"></i>
+                      </button>
+                      <button
+                        className="btn btn-outline-danger btn-sm"
+                        style={{ backgroundColor: 'black', color: 'white', border: 'none' }}
+                        onClick={(e) => {
+                          e.stopPropagation(); 
+                          handleDeleteClick(noteIndex, note._id);
+                        }}
+                      >
+                        <i className="fas fa-trash"></i> 
+                      </button>
+                    </div>
                   </div>
                   <p>{note.content.substring(0, 50)}...</p>
                 </div>

@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from 'js-cookie';
+
 
 function NoteForm() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
+   const jwtToken = Cookies.get('jwt');
+          const csrfToken = Cookies.get('csrfToken');
+          console.log('JWT Token:', jwtToken);
+          console.log('CSRF Token:', csrfToken);
+          console.log(`Bearer ${jwtToken}`);
+          const st=`Bearer ${jwtToken}`;
+          console.log(st);
 
   const handleCreate = async () => {
     try {
@@ -14,15 +23,17 @@ function NoteForm() {
         "http://localhost:8000/mynotes/notes/create",
         { title, content },
         {
-          withCredentials: true, // Include cookies for authentication
+          withCredentials: true, 
           headers: {
+            Authorization: st, 
+            'X-csrf-token': csrfToken,
             "Content-Type": "application/json",
           },
         }
       );
 
       console.log("Note created successfully:", response.data);
-      navigate("/dashboard"); // Redirect to dashboard on successful note creation
+      navigate("/dashboard"); 
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Failed to create note";
       console.error("Error creating note:", errorMessage);
