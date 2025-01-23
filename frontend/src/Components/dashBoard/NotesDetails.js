@@ -19,7 +19,7 @@ function NoteDetails() {
         const response = await axios.get(`http://localhost:8000/mynotes/notes/read/${noteId}`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
-            "X-csrf-token": csrfToken,
+            "X-CSRF-Token": csrfToken,
           },
           withCredentials: true, 
         });

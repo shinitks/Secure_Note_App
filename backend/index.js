@@ -17,15 +17,19 @@ const cors = require('cors');
 app.use(cors({
   origin: 'http://localhost:3000', // Allow requests from frontend
   credentials: true,               // Allow cookies
-  allowedHeaders: ['Authorization', 'X-CSRF-Token', 'Content-Type'], // Explicitly allow Authorization
+  allowedHeaders: ['Authorization', 'X-csrf-token', 'Content-Type'], // Explicitly allow Authorization
 }));
-
-
-app.use(helmet());
 
 // app.use(express.json({limit:'10kb'}));
 app.use(cookieParser());
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = (req,res)=>{
+ if( req.headers['x-csrf-token']!=req.cookies['csrfToken']){
+  return  res.status(403).json({ status: 'fail', message: 'Invalid CSRF tooken' });
+
+ }else return true;
+
+}
+
 
 // Use cookie-parser to handle cookies for CSRF token storage
 
@@ -34,6 +38,8 @@ const limiter = rateLimit({
     max: 100, // Limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try after 15 minutes.',
   });
+  app.use(helmet());
+
 
   app.use(express.json());
   sessionConfig(app);
@@ -44,22 +50,23 @@ const limiter = rateLimit({
 
 
 // app.use('/mynotes',limiter,csrfProtection);
-app.use('/mynotes',limiter);
 
 
-app.use('/mynotes/user',authRouter);
+app.use('/mynotes/user',limiter,authRouter);
 
 app.use('/mynotes/notes', (req, res, next) => {
     console.log('CSRF Token from Header:', req.headers['x-csrf-token']);
     console.log('CSRF Token from Cookie:', req.cookies['csrfToken']);
-    console.log('jwt Token from Cookie:', req.headers['authorization']);
+    console.log('jwt Token from Header:', req.headers['authorization']);
+    console.log('jwt Token from Cookie:', req.cookies['jwt']);
+      console.log('Received CSRF Token from Request:', req.body.csrfToken || req.headers['x-csrf-token']); 
+
 
     console.log('Request Path:', req.path);
-
+    csrfProtection(req,res)
     next();
-},notesRouter);
+},limiter,notesRouter);
 
-// app.use('/mynotes/notes',csrfProtection,notesRouter);
 
 
 

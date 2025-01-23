@@ -18,7 +18,7 @@ function NotesGrid() {
         const response = await axios.get('http://localhost:8000/mynotes/notes/allnotes', {
           headers: {
             Authorization: `Bearer ${jwtToken}`, 
-            'X-csrf-token': csrfToken,          
+            'X-CSRF-Token': csrfToken,          
           },
           withCredentials: true, 
         });
@@ -58,7 +58,7 @@ function NotesGrid() {
       await axios.delete(`http://localhost:8000/mynotes/notes/delete/${noteId}`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`, 
-          'X-csrf-token': csrfToken,         
+          'X-CSRF-Token': csrfToken,         
         },
         withCredentials: true, 
       });

@@ -26,7 +26,7 @@ function NoteForm() {
           withCredentials: true, 
           headers: {
             Authorization: st, 
-            'X-csrf-token': csrfToken,
+            'X-CSRF-Token': csrfToken,
             "Content-Type": "application/json",
           },
         }

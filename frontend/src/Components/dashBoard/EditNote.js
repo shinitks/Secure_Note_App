@@ -28,7 +28,7 @@ function EditNotePage() {
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
-              "X-csrf-token": csrfToken, 
+              "X-CSRF-Token": csrfToken, 
             },
             withCredentials: true, 
           }
@@ -65,7 +65,7 @@ function EditNotePage() {
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
-            "X-csrf-token": csrfToken,
+            "X-CSRF-Token": csrfToken,
           },
           withCredentials: true,
         }

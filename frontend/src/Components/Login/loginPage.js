@@ -26,7 +26,7 @@ function LoginPage({ hideModal }) {
         withCredentials: true, // Include cookies for CSRF token
         headers: {
           'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken, // Include CSRF token in request headers
+          'X-CSRF-Token': csrfToken, // Include CSRF token in request headers
         },
       });
 
