@@ -7,8 +7,8 @@
   justify-content: center;
   align-items: center;
   background-color: rgb(223, 231, 237);
-  width: 90%; /* Adjust width for smaller screens */
-  max-width: 400px; /* Limit modal width on larger screens */
+  width: 90%; 
+  max-width: 400px;  
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 1050;
 }
@@ -34,8 +34,8 @@
 
 @media (max-width: 768px) {
   .modal-wrapper {
-    width: 100%; /* Full width for medium-sized screens */
-    margin: 0 10px; /* Add padding to prevent edge overlap */
+    width: 100%; 
+    margin: 0 10px; 
   }
 
   .modal-content {
@@ -54,7 +54,7 @@
 
 @media (max-width: 480px) {
   .modal-wrapper {
-    width: 95%; /* Allow space around modal on smaller screens */
+    width: 95%; 
   }
 
   .form-label {

@@ -1,4 +1,3 @@
-/* General styling */
 body {
   background-color: rgb(246, 247, 237);
   margin: 0;
@@ -13,21 +12,19 @@ body {
   background-color: rgb(246, 247, 237);
 }
 
-/* Notes container */
 .notes-container {
   flex: 1;
   display: flex;
-  flex-wrap: wrap; /* Allows notes to wrap on smaller screens */
+  flex-wrap: wrap; 
   padding: 20px;
   justify-content: center;
   gap: 20px;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .notes-container {
     padding: 10px;
-    gap: 15px; /* Reduce gap between notes for smaller screens */
+    gap: 15px; 
   }
 }
 
@@ -38,6 +35,6 @@ body {
 
   .notes-container {
     padding: 5px;
-    gap: 10px; /* Further reduce gap for very small screens */
+    gap: 10px; 
   }
 }

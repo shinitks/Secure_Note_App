@@ -44,7 +44,7 @@
   @media (max-width: 400px), (max-height: 400px) {
     .page-2 .btn-outline-primary,
     .page-2 .btn-outline-danger {
-      display: none !important; /* Hide buttons */
+      display: none !important; 
     }
   }
   

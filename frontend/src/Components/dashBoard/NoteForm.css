@@ -18,24 +18,24 @@
   
   @media (max-width: 768px) {
     .form-container {
-      max-width: 90%; /* Reduce form width for medium screens */
+      max-width: 90%; 
     }
   
     .button-container {
-      flex-direction: column; /* Stack buttons vertically */
+      flex-direction: column; 
       align-items: center;
       gap: 10px;
     }
   
     button {
-      width: 100%; /* Full-width buttons */
+      width: 100%; 
     }
   }
   
   @media (max-width: 480px) {
     textarea.form-control {
-      font-size: 0.9rem; /* Adjust font size for readability */
-      height: 150px; /* Reduce height on small screens */
+      font-size: 0.9rem;
+      height: 150px; 
     }
   }
   

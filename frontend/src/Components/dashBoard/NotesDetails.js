@@ -12,7 +12,7 @@ function NoteDetails() {
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false); // State to show/hide the modal
+  const [showModal, setShowModal] = useState(false); 
 
   useEffect(() => {
     const fetchNote = async () => {

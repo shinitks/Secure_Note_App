@@ -76,9 +76,9 @@ function NotesGrid() {
       });
 
       setNotes((prevNotes) => prevNotes.filter((_, i) => i !== deleteIndex));
-      setShowModal(false); // Close modal
-      setDeleteIndex(null); // Reset index
-      setDeleteNoteId(null); // Reset noteId
+      setShowModal(false); 
+      setDeleteIndex(null);
+      setDeleteNoteId(null);
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Failed to delete note';
       console.error('Error deleting note:', errorMessage);
@@ -104,7 +104,6 @@ function NotesGrid() {
     <div className="container text-center">
       {error && <p className="text-danger">{error}</p>}
   
-      {/* No Notes Fallback */}
       {notes.length === 0 && !error && (
         <div
           style={{
@@ -121,14 +120,13 @@ function NotesGrid() {
           <p>Start organizing your thoughts by adding your first note.</p>
           <button
             className="btn btn-primary mt-3"
-            onClick={() => navigate('/note/create')} // Add navigation to "Add Note" page
+            onClick={() => navigate('/note/create')} 
           >
             Add Your First Note
           </button>
         </div>
       )}
   
-      {/* Notes Grid */}
       {notes.length > 0 &&
         rows.map((row, rowIndex) => (
           <div

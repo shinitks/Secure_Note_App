@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'; // For managing cookies
+import Cookies from 'js-cookie'; 
 import 'bootstrap/dist/css/bootstrap.css';
 import './MenuBar.css';
 
@@ -15,13 +15,13 @@ function MenuBar() {
   const handleLogout = () => {
     console.log('Logout button clicked');
 
-    // Clear authentication tokens
+    
     Cookies.remove('jwt');
     Cookies.remove('csrfToken');
-    localStorage.clear(); // Clear any stored session data
+    localStorage.clear();
 
-    // Redirect to login page
-    navigate('/login', { replace: true }); // Prevent back navigation
+   
+    navigate('/home', { replace: true }); 
   };
 
   return (

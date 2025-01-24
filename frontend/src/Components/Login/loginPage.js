@@ -11,11 +11,10 @@ function LoginPage({ hideModal }) {
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Clear session data on component mount
   useEffect(() => {
-    Cookies.remove('jwt'); // Remove JWT cookie
-    Cookies.remove('csrfToken'); // Remove CSRF token cookie
-    localStorage.clear(); // Clear any stored session data
+    Cookies.remove('jwt'); 
+    Cookies.remove('csrfToken'); 
+    localStorage.clear(); 
     console.log('Session data cleared');
   }, []);
 
@@ -39,7 +38,7 @@ function LoginPage({ hideModal }) {
       });
 
       console.log('Login successful:', response.data);
-      navigate('/dashboard',{ replace: true }); // Redirect to dashboard after successful login
+      navigate('/dashboard',{ replace: true }); 
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
       console.error('Login error:', errorMessage);
@@ -80,7 +79,7 @@ function LoginPage({ hideModal }) {
               </span>
             </div>
           </div>
-          {error && <p className="text-danger">{error}</p>} {/* Display error message */}
+          {error && <p className="text-danger">{error}</p>} 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <button
               className="btn btn-outline-success"
