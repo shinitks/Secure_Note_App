@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Cookies from 'js-cookie';
+import './NoteGrid.css'
 
 function NotesGrid() {
   const navigate = useNavigate();
@@ -99,6 +100,7 @@ function NotesGrid() {
   };
 
   return (
+    <div class="page-2 container">
     <div className="container text-center">
       {error && <p className="text-danger">{error}</p>}
   
@@ -222,6 +224,7 @@ function NotesGrid() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
   

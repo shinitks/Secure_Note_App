@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import './NoteForm.css';
 
 
 function NoteForm() {
@@ -9,13 +10,10 @@ function NoteForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
-   const jwtToken = Cookies.get('jwt');
-          const csrfToken = Cookies.get('csrfToken');
-          console.log('JWT Token:', jwtToken);
-          console.log('CSRF Token:', csrfToken);
-          console.log(`Bearer ${jwtToken}`);
-          const st=`Bearer ${jwtToken}`;
-          console.log(st);
+
+  const jwtToken = Cookies.get('jwt');
+  const csrfToken = Cookies.get('csrfToken');
+  const authorizationHeader = `Bearer ${jwtToken}`;
 
   const handleCreate = async () => {
     try {
@@ -23,9 +21,9 @@ function NoteForm() {
         "http://localhost:8000/mynotes/notes/create",
         { title, content },
         {
-          withCredentials: true, 
+          withCredentials: true,
           headers: {
-            Authorization: st, 
+            Authorization: authorizationHeader,
             'X-CSRF-Token': csrfToken,
             "Content-Type": "application/json",
           },
@@ -33,22 +31,21 @@ function NoteForm() {
       );
 
       console.log("Note created successfully:", response.data);
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Failed to create note";
       console.error("Error creating note:", errorMessage);
       handleError(err);
-
     }
   };
+
   const handleError = (err) => {
     const message = err.response?.data?.message || "An error occurred";
 
     if (err.response?.status === 401) {
-      // Session expired
       alert(`${message}. Redirecting to the Login page.`);
       navigate("/login");
-    } 
+    }
 
     setError(message);
   };
@@ -62,11 +59,9 @@ function NoteForm() {
       }}
     >
       <form
-        className="p-4 rounded shadow"
+        className="p-4 rounded shadow form-container"
         style={{
           backgroundColor: "#ffeef4",
-          width: "100%",
-          maxWidth: "900px",
         }}
         onSubmit={(e) => {
           e.preventDefault();
@@ -94,16 +89,13 @@ function NoteForm() {
             className="form-control"
             id="content"
             placeholder="Enter content"
-            rows="15"
-            style={{
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            }}
+            rows="10"
             value={content}
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
-        {error && <p className="text-danger mt-3">{error}</p>} {/* Display error */}
-        <div className="mt-4 d-flex justify-content-end">
+        {error && <p className="text-danger mt-3">{error}</p>}
+        <div className="mt-4 button-container">
           <button
             type="submit"
             className="btn btn-success me-3"

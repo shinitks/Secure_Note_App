@@ -1,0 +1,55 @@
+/* Main container for the Edit Note page */
+.edit-note-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+    padding: 20px;
+  }
+  
+  /* Styling for the form */
+  .edit-note-form {
+    background-color: #ffeef4;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Styling for text inputs and textarea */
+  .edit-note-form .form-control {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Buttons container */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .edit-note-form {
+      max-width: 90%;
+    }
+  
+    .button-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .btn {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .edit-note-form textarea {
+      font-size: 0.9rem;
+      height: 150px;
+    }
+  }
+  

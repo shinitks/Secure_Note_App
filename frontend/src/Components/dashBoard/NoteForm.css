@@ -1,0 +1,41 @@
+.form-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  textarea.form-control {
+    resize: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .form-container {
+      max-width: 90%; /* Reduce form width for medium screens */
+    }
+  
+    .button-container {
+      flex-direction: column; /* Stack buttons vertically */
+      align-items: center;
+      gap: 10px;
+    }
+  
+    button {
+      width: 100%; /* Full-width buttons */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    textarea.form-control {
+      font-size: 0.9rem; /* Adjust font size for readability */
+      height: 150px; /* Reduce height on small screens */
+    }
+  }
+  

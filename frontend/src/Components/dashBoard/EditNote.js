@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import "./EditNotePage.css";
 
 function EditNotePage() {
   const { noteId } = useParams();
   const navigate = useNavigate();
-  console.log("EditNotePage rendered, noteId:", noteId);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -16,12 +16,8 @@ function EditNotePage() {
   useEffect(() => {
     const fetchNote = async () => {
       try {
-        console.log("fetchNote called");
-
         const jwtToken = Cookies.get("jwt");
         const csrfToken = Cookies.get("csrfToken");
-        console.log("JWT Token:", jwtToken);
-        console.log("CSRF Token:", csrfToken);
 
         const response = await axios.get(
           `http://localhost:8000/mynotes/notes/read/${noteId}`,
@@ -34,8 +30,6 @@ function EditNotePage() {
           }
         );
 
-        console.log("Response:", response.data);
-
         const note = response.data.note;
         if (!note) {
           throw new Error("Note not found");
@@ -45,7 +39,6 @@ function EditNotePage() {
         setContent(note.content);
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching note:", err.message);
         handleError(err);
       }
     };
@@ -70,10 +63,9 @@ function EditNotePage() {
         }
       );
 
-      console.log("Note updated successfully:", response.data);
-      alert("Note updated successfully!"); 
+      alert("Note updated successfully!");
+      navigate("/dashboard");
     } catch (err) {
-      console.error("Error updating note:", err);
       handleError(err);
     }
   };
@@ -97,19 +89,12 @@ function EditNotePage() {
   }
 
   return (
-    <div
-      className="container-fluid vh-100 d-flex align-items-center justify-content-center"
-      style={{
-        backgroundColor: "#ffffff",
-        margin: "0",
-      }}
-    >
+    <div className="edit-note-container">
       <form
-        className="p-4 rounded shadow"
-        style={{
-          backgroundColor: "#ffeef4",
-          width: "900px",
-          maxWidth: "1000px",
+        className="edit-note-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
         }}
       >
         <div className="mb-4">
@@ -134,37 +119,31 @@ function EditNotePage() {
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            rows="15"
-            style={{
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            }}
+            rows="10"
           ></textarea>
         </div>
-        <div className="mt-4 d-flex justify-content-between">
-  <button
-    className="btn btn-secondary"
-    onClick={() => navigate('/dashboard')}
-  >
-    Go Back
-  </button>
-  <div>
-    <button
-      type="button"
-      className="btn btn-success me-3"
-      onClick={handleSave}
-    >
-      Save
-    </button>
-    <button
-      type="button"
-      className="btn btn-secondary"
-      onClick={() => navigate(-1)}
-    >
-      Cancel
-    </button>
-  </div>
-</div>
-
+        <div className="button-container">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => navigate("/dashboard")}
+          >
+            Go Back
+          </button>
+          <button
+            type="submit"
+            className="btn btn-success"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

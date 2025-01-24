@@ -1,0 +1,50 @@
+.page-2 .container {
+    padding: 20px;
+  }
+  
+  .page-2 .list-group-item {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .page-2 .list-group-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .page-2 .btn-outline-primary,
+  .page-2 .btn-outline-danger {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .page-2 .row {
+      margin-top: 10px;
+    }
+  
+    .page-2 .col-6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  
+    .page-2 .btn-outline-primary,
+    .page-2 .btn-outline-danger {
+      font-size: 0.8rem;
+      padding: 4px 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .page-2 .list-group-item {
+      padding: 15px;
+    }
+  }
+  
+  @media (max-width: 400px), (max-height: 400px) {
+    .page-2 .btn-outline-primary,
+    .page-2 .btn-outline-danger {
+      display: none !important; /* Hide buttons */
+    }
+  }
+  

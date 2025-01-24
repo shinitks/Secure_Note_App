@@ -45,14 +45,14 @@ function Home() {
       </div>
 
       <div className="buttons">
-        <div>
+        <div className="signup-container">
           <label className="signup-label">Don't have an account?</label>
           <br />
           <button className="btn signup-btn" onClick={displaySignup}>
             Sign Up
           </button>
         </div>
-        <div>
+        <div className="login-container">
           <label className="login-label">Already have an account?</label>
           <br />
           <button className="btn login-btn" onClick={displayLogin}>
@@ -61,10 +61,7 @@ function Home() {
         </div>
       </div>
 
-      
       {showSignUpModal && <SignUpPage hideModal={hideSignupModal} />}
-
-      
       {showLoginModal && <LoginPage hideModal={hideLoginModal} />}
     </div>
   );

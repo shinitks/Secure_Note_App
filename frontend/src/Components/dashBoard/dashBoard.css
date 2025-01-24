@@ -1,11 +1,43 @@
+/* General styling */
 body {
-    background-color: rgb(246, 247, 237);
-    margin: 0;
-    padding: 0;
+  background-color: rgb(246, 247, 237);
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: rgb(246, 247, 237);
+}
+
+/* Notes container */
+.notes-container {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap; /* Allows notes to wrap on smaller screens */
+  padding: 20px;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .notes-container {
+    padding: 10px;
+    gap: 15px; /* Reduce gap between notes for smaller screens */
   }
-  
-  .dashboard {
-    min-height: 100vh; 
-    background-color: rgb(246, 247, 237);
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 10px;
   }
-  
+
+  .notes-container {
+    padding: 5px;
+    gap: 10px; /* Further reduce gap for very small screens */
+  }
+}

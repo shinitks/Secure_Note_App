@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import './NoteDetails.css'
 
 function NoteDetails() {
   const { noteId } = useParams();
@@ -124,6 +125,7 @@ function NoteDetails() {
   }
 
   return (
+    <div class="page-1 container-fluid">
     <div
       className="container-fluid vh-100 d-flex align-items-center justify-content-center"
       style={{
@@ -221,6 +223,7 @@ function NoteDetails() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

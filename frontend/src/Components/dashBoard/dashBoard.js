@@ -1,14 +1,15 @@
-import React from 'react';
-import MenuBar from './MenuBar';
-import NotesGrid from './Notes';
-import 'bootstrap/dist/css/bootstrap.css';
-import './dashboard.css'
+import React from "react";
+import MenuBar from "./MenuBar";
+import NotesGrid from "./Notes";
+import "./dashboard.css";
 
 function DashBoard() {
   return (
-    <div className="dashboard">
+    <div className="dashboard-container">
       <MenuBar />
-      <NotesGrid />
+      <div className="notes-container">
+        <NotesGrid />
+      </div>
     </div>
   );
 }

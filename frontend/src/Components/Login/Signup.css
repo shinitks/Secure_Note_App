@@ -1,29 +1,68 @@
 .modal-wrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(223, 231, 237);
-    width:800px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
-    z-index: 1050; 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(223, 231, 237);
+  width: 90%; /* Adjust width for smaller screens */
+  max-width: 400px; /* Limit modal width on larger screens */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+}
+
+.modal-content {
+  background: rgb(223, 231, 237);
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.input-group-text {
+  padding: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .modal-wrapper {
+    width: 100%; /* Full width for medium-sized screens */
+    margin: 0 10px; /* Add padding to prevent edge overlap */
   }
-  
+
   .modal-content {
-    background: rgb(223, 231, 237); 
-    border: 2px solid #ccc; 
-    border-radius: 8px;
-    padding: 20px;
-    width:800px;
-    max-width: 1000px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
-    z-index: 1001; 
+    padding: 15px;
   }
-  
-  .overlay {
-    display: none; 
+
+  .form-label {
+    font-size: 1rem;
   }
-  
+
+  .btn {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-wrapper {
+    width: 95%; /* Allow space around modal on smaller screens */
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+}
