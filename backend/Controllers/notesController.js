@@ -38,11 +38,7 @@ exports.create_notes = asyncErrorHandler(async (req, res) => {
     });
 });
 exports.get_all_notes = asyncErrorHandler(async (req, res, next) => {
-    console.log('Cookies:', req.cookies);
-  console.log('Authorization Header:', req.headers.Authorization);
-  console.log('CSRF Token from Header:', req.headers['x-CSRF-token']);
-  console.log('CSRF Token from Cookie:', req.cookies.csrfToken);
-
+    
   
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -52,9 +48,7 @@ exports.get_all_notes = asyncErrorHandler(async (req, res, next) => {
   const token = authHeader.split(' ')[1];
   const decodedToken = jwt.verify(token, process.env.secret_string);
 
-  console.log('Decoded Token:', decodedToken);
 
-  // Fetch user and notes
   const user = await User.findById(decodedToken.id);
   if (!user) {
     return res.status(404).json({ status: 'fail', message: 'User not found' });
@@ -69,7 +63,6 @@ exports.get_all_notes = asyncErrorHandler(async (req, res, next) => {
   
 exports.read_notes=asyncErrorHandler(async(req,res)=>{
     const id=req.params.id*1;
-    console.log(id);
     const user = req.user;
     if (isNaN(id) || id < 0 || id > user.notes.length) {
         return res.status(404).json({ status: 'fail', message: 'Note not found' });
@@ -109,8 +102,7 @@ exports.delete_notes = asyncErrorHandler(async (req, res) => {
   const id = req.params.id; 
   const user = req.user;
 
-  console.log(id);
-  console.log(user);
+  
   
 
   const mongoose = require('mongoose'); 
@@ -132,7 +124,6 @@ exports.delete_notes = asyncErrorHandler(async (req, res) => {
         note: deletedNote,
     });
   } catch (err) {
-    console.log(note._id);
     return res.status(400).json({ status: 'fail', message: 'Invalid note ID' });
   }
   

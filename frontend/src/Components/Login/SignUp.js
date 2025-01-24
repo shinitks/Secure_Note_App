@@ -37,7 +37,7 @@ function SignUpPage({ hideModal }) {
       });
 
       console.log('Sign-up successful:', response.data);
-      navigate('/dashboard');
+      navigate('/dashboard',{ replace: true });
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Sign-up failed';
       console.error('Sign-up error:', errorMessage);

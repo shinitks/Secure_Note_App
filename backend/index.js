@@ -64,20 +64,13 @@ const sessionTimeoutMiddleware = (req, res, next) => {
   next();
 };
 
-app.use('/mynotes/notes',sessionTimeoutMiddleware);
+app.use(sessionTimeoutMiddleware);
 
 app.use('/mynotes/user', limiter, authRouter);
 
 app.use(
   '/mynotes/notes',
   (req, res, next) => {
-    console.log('CSRF Token from Header:', req.headers['x-csrf-token']);
-    console.log('CSRF Token from Cookie:', req.cookies['csrfToken']);
-    console.log('jwt Token from Header:', req.headers['authorization']);
-    console.log('jwt Token from Cookie:', req.cookies['jwt']);
-    console.log('Received CSRF Token from Request:', req.body.csrfToken || req.headers['x-csrf-token']);
-    console.log('Request Path:', req.path);
-
     csrfProtection(req, res);
     next();
   },

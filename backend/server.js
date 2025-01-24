@@ -2,7 +2,7 @@ const app=require('./index.js');
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/myDatabaseName', {
+mongoose.connect('mongodb+srv://shinitks:sh1n1tks%237@cluster0.3vpmi.mongodb.net/myDatabaseName?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

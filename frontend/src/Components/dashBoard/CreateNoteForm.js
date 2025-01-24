@@ -31,7 +31,7 @@ function NoteForm() {
       );
 
       console.log("Note created successfully:", response.data);
-      navigate("/dashboard");
+      navigate("/dashboard",{ replace: true });
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Failed to create note";
       console.error("Error creating note:", errorMessage);

@@ -34,9 +34,6 @@ const createSendResponse=(user,statusCode,message,token,csrfToken,res,req)=>{
     }
     res.cookie('jwt',token,options);
     res.cookie('csrfToken', csrfToken, options);
-    console.log('Cookies:', req.cookies);
-console.log('Headers:', req.headers);
-
 
     res.status(statusCode).json({
         status:'success',
@@ -152,7 +149,6 @@ exports.protect = asyncErrorHandler(async (req, res, next) => {
       return next(new customerror('User not found', 401));
     }
   
-    console.log('User found:', user);
   
     req.user = user;
     next();
