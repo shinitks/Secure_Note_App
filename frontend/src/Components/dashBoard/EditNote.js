@@ -140,22 +140,31 @@ function EditNotePage() {
             }}
           ></textarea>
         </div>
-        <div className="mt-4 d-flex justify-content-end">
-          <button
-            type="button"
-            className="btn btn-success me-3"
-            onClick={handleSave}
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => navigate(-1)}
-          >
-            Cancel
-          </button>
-        </div>
+        <div className="mt-4 d-flex justify-content-between">
+  <button
+    className="btn btn-secondary"
+    onClick={() => navigate('/dashboard')}
+  >
+    Go Back
+  </button>
+  <div>
+    <button
+      type="button"
+      className="btn btn-success me-3"
+      onClick={handleSave}
+    >
+      Save
+    </button>
+    <button
+      type="button"
+      className="btn btn-secondary"
+      onClick={() => navigate(-1)}
+    >
+      Cancel
+    </button>
+  </div>
+</div>
+
       </form>
     </div>
   );

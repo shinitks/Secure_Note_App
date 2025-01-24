@@ -48,10 +48,7 @@ function NoteForm() {
       // Session expired
       alert(`${message}. Redirecting to the Login page.`);
       navigate("/login");
-    } else {
-      // Other errors
-      alert(message);
-    }
+    } 
 
     setError(message);
   };

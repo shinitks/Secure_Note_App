@@ -132,6 +132,7 @@ exports.delete_notes = asyncErrorHandler(async (req, res) => {
         note: deletedNote,
     });
   } catch (err) {
+    console.log(note._id);
     return res.status(400).json({ status: 'fail', message: 'Invalid note ID' });
   }
   
