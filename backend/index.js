@@ -64,7 +64,11 @@ const sessionTimeoutMiddleware = (req, res, next) => {
   next();
 };
 
-app.use('/mynotes/notes',sessionTimeoutMiddleware);
+app.use('/mynotes/notes/create',sessionTimeoutMiddleware);
+app.use('/mynotes/notes/read',sessionTimeoutMiddleware);
+app.use('/mynotes/notes/update',sessionTimeoutMiddleware);
+app.use('/mynotes/notes/delete',sessionTimeoutMiddleware);
+
 
 app.use('/mynotes/user', limiter, authRouter);
 

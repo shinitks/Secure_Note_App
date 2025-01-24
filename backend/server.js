@@ -13,3 +13,7 @@ const port=8000;
 app.listen(port,()=>{
         console.log('server started');
     });
+
+    //mongodb+srv://shinitks:sh1n1tks%237@cluster0.3vpmi.mongodb.net/myDatabaseName?retryWrites=true&w=majority
+    //mongodb+srv://shinitks:sh1n1tks%237@cluster0.3vpmi.mongodb.net/sessionDB?retryWrites=true&w=majority
+    //mongodb://127.0.0.1:27017/myDatabaseName

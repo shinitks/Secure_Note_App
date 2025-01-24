@@ -9,9 +9,9 @@ function NotesGrid() {
   const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  const [deleteIndex, setDeleteIndex] = useState(null); // Index of the note to delete
-  const [deleteNoteId, setDeleteNoteId] = useState(null); // ID of the note to delete
+  const [showModal, setShowModal] = useState(false); 
+  const [deleteIndex, setDeleteIndex] = useState(null); 
+  const [deleteNoteId, setDeleteNoteId] = useState(null); 
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -91,7 +91,7 @@ function NotesGrid() {
 
     if (err.response?.status === 401) {
       alert(`${message}. Redirecting to the Login page.`);
-      navigate('/login');
+      navigate('/login', { replace: true });
     } else {
       alert(message);
     }
