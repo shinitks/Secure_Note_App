@@ -81,7 +81,7 @@ exports.signup = async (req, res, next) => {
 
        }
        if(val==3){
-        return res.status(400).json({ status: 'fail', message: 'password should contain uppercase, lowercase, and digits ' });
+        return res.status(400).json({ status: 'fail', message: 'Password should contain uppercase, lowercase, and digits ' });
 
        }
         if (password !== confirmPassword) {

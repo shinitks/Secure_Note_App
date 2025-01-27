@@ -75,7 +75,7 @@ function MenuBar() {
               textAlign: "center",
             }}
           >
-            <h5>Are you sure you want to delete this note?</h5>
+            <h5>Are you sure you want to Log Out?</h5>
             <div className="mt-4">
               <button className="btn btn-danger me-2" onClick={handleLogout}>
                 Log Out

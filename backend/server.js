@@ -1,8 +1,10 @@
 const app=require('./index.js');
 const mongoose = require('mongoose');
+require('dotenv').config(); 
 
 
-mongoose.connect('mongodb+srv://shinitks:sh1n1tks%237@cluster0.3vpmi.mongodb.net/myDatabaseName?retryWrites=true&w=majority', {
+
+mongoose.connect(process.env.USERS_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
