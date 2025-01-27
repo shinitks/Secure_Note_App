@@ -2,15 +2,13 @@ const app=require('./index.js');
 const mongoose = require('mongoose');
 require('dotenv').config(); 
 
+const connectionString = process.env.USERS_DB || 'mongodb+srv://shinitks:sh1n1tks%237@cluster0.3vpmi.mongodb.net/myDatabaseName?retryWrites=true&w=majority';
 
 
-mongoose.connect(process.env.USERS_DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  tlsAllowInvalidCertificates: true,
-  ssl: true, // Enable TLS/SSL
-
-})
+mongoose.connect(connectionString, {
+    ssl: true, // Enable SSL/TLS (if required by the server)
+    tlsAllowInvalidCertificates: true, // Use only for debugging; remove for production
+  })
 .then(() => console.log('Database connected successfully'))
 .catch(err => console.error('Database connection error:', err));
 
