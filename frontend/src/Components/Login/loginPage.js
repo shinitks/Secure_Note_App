@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './loginPage.css';
 import Cookies from 'js-cookie';
-require('dotenv').config(); 
 
 
 function LoginPage({ hideModal }) {
