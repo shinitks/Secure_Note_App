@@ -29,7 +29,7 @@ function LoginPage({ hideModal }) {
     };
 
     try {
-      const response = await axios.post('http://localhost:8000/mynotes/user/login', user, {
+      const response = await axios.post('https://secure-note-app.onrender.com/mynotes/user/login', user, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
