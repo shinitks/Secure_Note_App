@@ -7,6 +7,8 @@ require('dotenv').config();
 mongoose.connect(process.env.USERS_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    tlsInsecure: true, // Temporarily disable strict checks for debugging
+  tlsAllowInvalidCertificates: true,
 })
 .then(() => console.log('Database connected successfully'))
 .catch(err => console.error('Database connection error:', err));
