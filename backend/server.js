@@ -2,15 +2,12 @@ const app=require('./index.js');
 const mongoose = require('mongoose');
 require('dotenv').config(); 
 
-const connectionString = process.env.USERS_DB || 'mongodb+srv://shinitks:sh1n1tks%237@cluster0.3vpmi.mongodb.net/myDatabaseName?retryWrites=true&w=majority';
 
 
-mongoose.connect(connectionString, {
-    ssl: true, // Enable SSL/TLS (if required by the server)
-    tlsAllowInvalidCertificates: false, // Do not allow invalid certs
-    tlsCAFile: '/path/to/ca.pem', // Use your certificate authority file
-
-  })
+mongoose.connect('mongodb+srv://shinitks:sh1n1tks%237@cluster0.3vpmi.mongodb.net/myDatabaseName?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 .then(() => console.log('Database connected successfully'))
 .catch(err => console.error('Database connection error:', err));
 
