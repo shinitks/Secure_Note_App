@@ -4,7 +4,8 @@ import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Cookies from 'js-cookie';
 import './NoteGrid.css'
-require('dotenv').config(); 
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 function NotesGrid() {
