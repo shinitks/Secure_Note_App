@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './loginPage.css';
 import Cookies from 'js-cookie';
+require('dotenv').config(); 
+
 
 function LoginPage({ hideModal }) {
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ function LoginPage({ hideModal }) {
     };
 
     try {
-      const response = await axios.post('https://secure-note-app.onrender.com/mynotes/user/login', user, {
+      const response = await axios.post(process.env.BACKEND_URL, user, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

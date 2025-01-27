@@ -4,6 +4,8 @@ import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Cookies from 'js-cookie';
 import './NoteGrid.css'
+require('dotenv').config(); 
+
 
 function NotesGrid() {
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ function NotesGrid() {
         const jwtToken = Cookies.get('jwt');
         const csrfToken = Cookies.get('csrfToken');
 
-        const response = await axios.get('http://localhost:8000/mynotes/notes/allnotes', {
+        const response = await axios.get(process.env.NOTES_URL, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
             'X-CSRF-Token': csrfToken,
