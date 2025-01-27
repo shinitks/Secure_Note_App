@@ -67,7 +67,7 @@ function NotesGrid() {
       const jwtToken = Cookies.get('jwt');
       const csrfToken = Cookies.get('csrfToken');
 
-      await axios.delete(`http://localhost:8000/mynotes/notes/delete/${deleteNoteId}`, {
+      await axios.delete(`https://secure-note-app.onrender.com/mynotes/notes/delete/${deleteNoteId}`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
           'X-CSRF-Token': csrfToken,

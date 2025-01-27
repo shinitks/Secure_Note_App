@@ -18,7 +18,7 @@ function NoteForm() {
   const handleCreate = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/mynotes/notes/create",
+        "https://secure-note-app.onrender.com/mynotes/notes/create",
         { title, content },
         {
           withCredentials: true,

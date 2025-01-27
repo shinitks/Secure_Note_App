@@ -20,7 +20,7 @@ function EditNotePage() {
         const csrfToken = Cookies.get("csrfToken");
 
         const response = await axios.get(
-          `http://localhost:8000/mynotes/notes/read/${noteId}`,
+          `https://secure-note-app.onrender.com/mynotes/notes/read/${noteId}`,
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
@@ -52,7 +52,7 @@ function EditNotePage() {
       const csrfToken = Cookies.get("csrfToken");
 
       const response = await axios.patch(
-        `http://localhost:8000/mynotes/notes/update/${noteId}`,
+        `https://secure-note-app.onrender.com/mynotes/notes/update/${noteId}`,
         { title, content },
         {
           headers: {

@@ -28,7 +28,7 @@ function SignUpPage({ hideModal }) {
     };
 
     try {
-      const response = await axios.post('http://localhost:8000/mynotes/user/signup', user, {
+      const response = await axios.post('https://secure-note-app.onrender.com/mynotes/user/signup', user, {
         withCredentials: true, 
         headers: {
           'Content-Type': 'application/json',

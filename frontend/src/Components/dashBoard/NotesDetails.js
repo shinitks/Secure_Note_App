@@ -21,7 +21,7 @@ function NoteDetails() {
         const csrfToken = Cookies.get("csrfToken");
 
         const response = await axios.get(
-          `http://localhost:8000/mynotes/notes/read/${noteId}`,
+          `https://secure-note-app.onrender.com/mynotes/notes/read/${noteId}`,
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
@@ -53,7 +53,7 @@ function NoteDetails() {
       const csrfToken = Cookies.get("csrfToken");
 
       const response = await axios.delete(
-        `http://localhost:8000/mynotes/notes/delete/${note._id}`,
+        `https://secure-note-app.onrender.com/mynotes/notes/delete/${note._id}`,
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
