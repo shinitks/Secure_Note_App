@@ -7,7 +7,6 @@ const connectionString = process.env.USERS_DB || 'mongodb+srv://shinitks:sh1n1tk
 
 mongoose.connect(connectionString, {
     ssl: true, // Enable SSL/TLS (if required by the server)
-    tlsAllowInvalidCertificates: true, // Use only for debugging; remove for production
   })
 .then(() => console.log('Database connected successfully'))
 .catch(err => console.error('Database connection error:', err));
