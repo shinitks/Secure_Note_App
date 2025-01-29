@@ -8,6 +8,11 @@ const xss = require('xss-clean');
 const sanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
+const hpp = require('hpp');
+const ExpressBrute = require('express-brute');
+const store = new ExpressBrute.MemoryStore();
+
+
 
 const notesRouter = require('./Routes/notesRouter.js');
 const authRouter = require('./Routes/authRouter.js');
@@ -31,11 +36,20 @@ sessionConfig(app);
 app.use(helmet());
 app.use(sanitize());
 app.use(xss());
+app.use(hpp());
 
+
+
+const bruteforce = new ExpressBrute(store, {
+  freeRetries: 5, 
+  minWait: 5 * 60 * 1000, 
+  maxWait: 15 * 60 * 1000, 
+  lifetime: 60 * 60, 
+});
 
 const limiter = rateLimit({
   windowMs: 15* 60 * 1000, 
-  max: 100, 
+  max: 50, 
   message: 'Too many requests from this IP, please try after 15 minutes.',
 });
 
@@ -71,6 +85,7 @@ app.use('/mynotes/notes/read',sessionTimeoutMiddleware);
 app.use('/mynotes/notes/update',sessionTimeoutMiddleware);
 app.use('/mynotes/notes/delete',sessionTimeoutMiddleware);
 
+app.use('/mynotes/user/login', bruteforce.prevent, authRouter);
 
 app.use('/mynotes/user', limiter, authRouter);
 
