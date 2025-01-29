@@ -14,6 +14,7 @@ import Home from './Components/Login/Home';
 import EditNotePage from './Components/dashBoard/EditNote';
 
 
+axios.defaults.withCredentials = true;
 
 function App() {
   return (

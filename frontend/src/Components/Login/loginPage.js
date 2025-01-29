@@ -39,6 +39,9 @@ function LoginPage({ hideModal }) {
       });
 
       console.log('Login successful:', response.data);
+      Cookies.set('jwt', response.data.token, { secure: true, sameSite: 'None' });
+      Cookies.set('csrfToken', response.data.csrfToken, { secure: true, sameSite: 'None' });
+
       navigate('/dashboard',{ replace: true }); 
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
