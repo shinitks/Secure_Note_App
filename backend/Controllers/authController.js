@@ -26,7 +26,7 @@ const createSendResponse=(user,statusCode,message,token,csrfToken,res,req)=>{
 
         // secure:true, 
         httpOnly:false,
-        sameSite: 'Lax',
+        sameSite: 'None',
 
     };
     if(process.env.NODE_ENV==='production'){
