@@ -20,31 +20,28 @@ const signtoken = (id) => {
 
 };
 
-const createSendResponse=(user,statusCode,message,token,csrfToken,res,req)=>{
-    const options={
+const createSendResponse = (user, statusCode, message, token, csrfToken, res, req) => {
+    const options = {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-
-        // secure:true, 
-        httpOnly:false,
-        sameSite: 'None',
-
+        httpOnly: true, 
+        secure: true,  // Important for HTTPS
+        sameSite: 'None', // Ensures cookies work across different origins
     };
-    if(process.env.NODE_ENV==='production'){
-        options.secure=true;
-    }
-    res.cookie('jwt',token,options);
+
+    res.cookie('jwt', token, options);
     res.cookie('csrfToken', csrfToken, options);
 
     res.status(statusCode).json({
-        status:'success',
-        message:message,
+        status: 'success',
+        message: message,
         token,
         csrfToken,
-        data:{
-            user
-        }
+        data: {
+            user,
+        },
     });
-}
+};
+
 
 function passwordCheck(password,res){
     if(password.length<8){

@@ -18,13 +18,15 @@ function NotesGrid() {
       try {
         const jwtToken = Cookies.get('jwt');
         const csrfToken = Cookies.get('csrfToken');
+        console.log('jwt='+jwtToken);
 
         const response = await axios.get('https://secure-note-app.onrender.com/mynotes/notes/allnotes', {
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${jwtToken}`,
             'X-CSRF-Token': csrfToken,
           },
-          withCredentials: true,
+         
         });
 
         setNotes(response.data.notes);
