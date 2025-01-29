@@ -32,6 +32,8 @@ const createSendResponse = (user, statusCode, message, token, csrfToken, res, re
     res.cookie('csrfToken', csrfToken, { ...options, httpOnly: false }); // Allow frontend to read it
     console.log('generated Token',token);
     console.log('CSRF Token',csrfToken);
+    console.log('🔹 Setting JWT Cookie:', token);
+    console.log('🔹 Setting CSRF Cookie:', csrfToken);
 
 
     res.status(statusCode).json({
