@@ -24,12 +24,15 @@ const createSendResponse = (user, statusCode, message, token, csrfToken, res, re
     const options = {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
         httpOnly: true, 
-        secure: true,  // Important for HTTPS
-        sameSite: 'None', // Ensures cookies work across different origins
+        secure: true,  // Required for HTTPS
+        sameSite: 'None', // Allows cross-origin cookies
     };
 
     res.cookie('jwt', token, options);
-    res.cookie('csrfToken', csrfToken, options);
+    res.cookie('csrfToken', csrfToken, { ...options, httpOnly: false }); // Allow frontend to read it
+    console.log('generated Token',token);
+    console.log('CSRF Token',csrfToken);
+
 
     res.status(statusCode).json({
         status: 'success',
@@ -41,6 +44,7 @@ const createSendResponse = (user, statusCode, message, token, csrfToken, res, re
         },
     });
 };
+
 
 
 function passwordCheck(password,res){

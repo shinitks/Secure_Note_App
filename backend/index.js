@@ -75,6 +75,8 @@ app.use('/mynotes/user', limiter, authRouter);
 app.use(
   '/mynotes/notes',
   (req, res, next) => {
+    console.log('Authorization Header:', req.headers.authorization);
+
     csrfProtection(req, res);
     next();
   },
