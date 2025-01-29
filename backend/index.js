@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const hpp = require('hpp');
 const ExpressBrute = require('express-brute');
 const store = new ExpressBrute.MemoryStore();
-
+const blocker=require('express-user-agent-blocker');
 
 
 const notesRouter = require('./Routes/notesRouter.js');
@@ -37,6 +37,8 @@ app.use(helmet());
 app.use(sanitize());
 app.use(xss());
 app.use(hpp());
+app.use(blocker(['Baiduspider', 'SomeHorridUA']))
+
 
 
 
