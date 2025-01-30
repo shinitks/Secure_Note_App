@@ -20,7 +20,7 @@ const sessionConfig = require('./config/sessionConfig');
 
 app.use(
   cors({
-    origin: 'https://secure-note-app-frontend.onrender.com',
+    origin: 'https://secure-note-app-frontend-h7vi.onrender.com',
     credentials: true, 
     allowedHeaders: ['Authorization', 'X-csrf-token', 'Content-Type', 'Cookie'],
   })
