@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './loginPage.css';
 import Cookies from 'js-cookie';
+import api from '../../axiosInstance';
 
 
 function LoginPage({ hideModal }) {
@@ -30,7 +31,7 @@ function LoginPage({ hideModal }) {
     };
 
     try {
-      const response = await axios.post('https://secure-note-app.onrender.com/mynotes/user/login', user, {
+      const response = await api.post('/mynotes/user/login', user, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +39,6 @@ function LoginPage({ hideModal }) {
         },
       });
 
-      console.log('Login successful:', response.data);
       Cookies.set('jwt', response.data.token, { secure: true, sameSite: 'None' });
       Cookies.set('csrfToken', response.data.csrfToken, { secure: true, sameSite: 'None' });
 
